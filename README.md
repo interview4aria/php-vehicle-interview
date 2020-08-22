@@ -12,4 +12,6 @@ The following software is required to run the application.
 
 composer install
 php bin/console doctrine:migrations:migrate
-symfony server:start
+php bin/console doctrine:fixtures:load
+php bin/phpunit tests
+php bin/console symfony server:start

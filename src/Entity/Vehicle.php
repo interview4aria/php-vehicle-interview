@@ -22,6 +22,11 @@ class Vehicle
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $type;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +40,18 @@ class Vehicle
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
