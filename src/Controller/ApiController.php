@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Vehicle;
+use App\Entity\Plane;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -35,7 +38,16 @@ class ApiController extends AbstractController
      */
     public function getPlane($id)
     {
-        return new Response('');
+        $plane = $this->getDoctrine()
+            ->getRepository(Plane::class)
+            ->findOneByVehicle($id);
+
+        return new JsonResponse([
+            'numEngines' => $plane->getNumEngines(),
+            'engineType' => $plane->getEngineType(),
+            'seating' => $plane->getSeating(),
+            'crew' => $plane->getCrew()
+        ]);
     }
 
     private function serializeData($data)

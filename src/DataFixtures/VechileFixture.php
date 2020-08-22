@@ -34,7 +34,14 @@ class VechileFixture extends Fixture
         $vehicle->setColor('gray');
         $vehicle->setPrice('1383020');
         $vehicle->setDescription('Louis is the custom-built, single-engine, single-seat, high-wing monoplane that was flown by Charles Lindbergh on May 20–21, 1927, on the first solo nonstop transatlantic flight from Long Island, New York, to Paris, France, for which Lindbergh won the $25,000 Orteig Prize.');
-        $manager->persist($vehicle);
+
+        $plane = new Plane();
+        $plane->setVehicle($vehicle);
+        $plane->setNumEngines(1);
+        $plane->setEngineType('propeller');
+        $plane->setSeating(1);
+        $plane->setCrew(0);
+        $manager->persist($plane);
 
         $vehicle = new Vehicle();
         $vehicle->setName('Batmobile');
@@ -74,7 +81,14 @@ class VechileFixture extends Fixture
         $vehicle->setColor('white');
         $vehicle->setPrice('3200000000');
         $vehicle->setDescription('Air Force One is the official air traffic control call sign for a United States Air Force aircraft carrying the president of the United States. In common parlance, the term is used to denote U.S. Air Force aircraft modified and used to transport the president.[1] The aircraft are prominent symbols of the American presidency and its power.');
-        $manager->persist($vehicle);
+
+        $plane = new Plane();
+        $plane->setVehicle($vehicle);
+        $plane->setNumEngines(4);
+        $plane->setEngineType('jet');
+        $plane->setSeating(76);
+        $plane->setCrew(26);
+        $manager->persist($plane);
 
         $manager->flush();
     }

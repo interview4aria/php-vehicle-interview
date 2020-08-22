@@ -100,5 +100,12 @@ class ApiControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode());
+
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals('4', $responseData['numEngines']);
+        $this->assertEquals('jet', $responseData['engineType']);
+        $this->assertEquals('76', $responseData['seating']);
+        $this->assertEquals('26', $responseData['crew']);
     }
 }

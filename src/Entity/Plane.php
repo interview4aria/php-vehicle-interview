@@ -43,11 +43,6 @@ class Plane
      */
     private $crew;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getVehicle(): ?Vehicle
     {
         return $this->vehicle;
