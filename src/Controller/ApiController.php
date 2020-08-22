@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ApiController
 {
     /**
-     * @Route("/vehicles")
+     * @Route("/api/vehicles")
      */
-    public function vehicles()
+    public function get()
     {
-        return new Response('');
+        return new JsonResponse(['aaData'=>[]]);
     }
 }
