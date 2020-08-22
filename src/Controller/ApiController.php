@@ -12,6 +12,6 @@ class ApiController
      */
     public function get()
     {
-        return new JsonResponse(['aaData'=>[]]);
+        return new JsonResponse([]);
     }
 }

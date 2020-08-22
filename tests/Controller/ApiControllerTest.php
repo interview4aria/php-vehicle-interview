@@ -17,6 +17,6 @@ class ApiControllerTest extends WebTestCase
 
         $responseData = json_decode($response->getContent(), true);
 
-        $this->assertEquals([], $responseData['aaData']);
+        $this->assertEquals([], $responseData);
     }
 }
