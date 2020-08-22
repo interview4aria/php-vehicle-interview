@@ -7,14 +7,15 @@ use App\Entity\Plane;
 use App\Entity\Car;
 use App\Entity\Boat;
 
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiController extends AbstractController
 {
@@ -44,6 +45,10 @@ class ApiController extends AbstractController
             ->getRepository(Plane::class)
             ->findOneByVehicle($id);
 
+        if ($plane === null) {
+            throw $this->createNotFoundException();
+        }
+
         return new JsonResponse([
             'numEngines' => $plane->getNumEngines(),
             'engineType' => $plane->getEngineType(),
@@ -61,6 +66,10 @@ class ApiController extends AbstractController
             ->getRepository(Car::class)
             ->findOneByVehicle($id);
 
+        if ($car === null) {
+            throw $this->createNotFoundException();
+        }
+
         return new JsonResponse([
             'motor' => $car->getMotor(),
             'fuel' => $car->getFuel(),
@@ -77,6 +86,10 @@ class ApiController extends AbstractController
             ->getRepository(Boat::class)
             ->findOneByVehicle($id);
 
+        if ($boat === null) {
+            throw $this->createNotFoundException();
+        }
+
         return new JsonResponse([
             'num_engines' => $boat->getNumEngines(),
             'propulsion' => $boat->getPropulsion(),
@@ -85,12 +98,28 @@ class ApiController extends AbstractController
         ]);
     }
 
+
+    /**
+     * This turns an object into json, it should not be altered and most likely
+     * will not impact anything you need to do.
+     */
     private function serializeData($data)
     {
+        //$normalizer = ;
+        //$normalizer->setIgnoredAttributes(['__initializer__','__cloner__','__isInitialized__']);
+
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
 
         $serializer = new Serializer($normalizers, $encoders);
-        return $serializer->serialize($data, 'json');
+        return $serializer->serialize(
+            $data,
+            'json',
+            [AbstractNormalizer::IGNORED_ATTRIBUTES => [
+                '__initializer__',
+                '__cloner__',
+                '__isInitialized__'
+            ]]
+        );
     }
 }

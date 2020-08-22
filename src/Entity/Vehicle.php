@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VehicleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,17 @@ class Vehicle
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SalesPerson::class, inversedBy="vehicles",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $salesPerson;
+
+    public function __construct()
+    {
+        $this->salesperson = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,5 +134,17 @@ class Vehicle
     public function getFormatPrice()
     {
         return '$'.number_format($this->getPrice(), 2, '.', ',');
+    }
+
+    public function getSalesPerson(): ?SalesPerson
+    {
+        return $this->salesPerson;
+    }
+
+    public function setSalesPerson(?SalesPerson $salesPerson): self
+    {
+        $this->salesPerson = $salesPerson;
+
+        return $this;
     }
 }

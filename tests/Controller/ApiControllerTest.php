@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ApiControllerTest extends WebTestCase
 {
+    /**
+     * Tests that the application and the data all was loaded correctly.
+     */
     public function testVehicles()
     {
         $client = static::createClient();
@@ -24,6 +27,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('3200000000', $responseData[0]['price']);
         $this->assertEquals('Air Force One is the official air traffic control call sign for a United States Air Force aircraf...', $responseData[0]['truncDescription']);
         $this->assertEquals('$3,200,000,000.00', $responseData[0]['formatPrice']);
+        $this->assertEquals(null, $responseData[0]['salesPerson']);
         $this->assertArrayHasKey('id', $responseData[0]);
 
         $this->assertEquals('Al Mirqab', $responseData[1]['name']);
@@ -33,6 +37,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('250000000', $responseData[1]['price']);
         $this->assertEquals('Al Mirqab is one of the largest motor yachts ever built. The yacht belongs to Qatar\'s former Prim...', $responseData[1]['truncDescription']);
         $this->assertEquals('$250,000,000.00', $responseData[1]['formatPrice']);
+        $this->assertEquals('Stew Isakov', $responseData[1]['salesPerson']['name']);
         $this->assertArrayHasKey('id', $responseData[1]);
 
         $this->assertEquals('Batmobile', $responseData[2]['name']);
@@ -42,6 +47,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('620000', $responseData[2]['price']);
         $this->assertEquals('The Batmobile is the fictional car driven by the superhero Batman. Housed in the Batcave, which i...', $responseData[2]['truncDescription']);
         $this->assertEquals('$620,000.00', $responseData[2]['formatPrice']);
+        $this->assertEquals('Stew Isakov', $responseData[2]['salesPerson']['name']);
         $this->assertArrayHasKey('id', $responseData[2]);
 
         $this->assertEquals('Bullitt', $responseData[3]['name']);
@@ -51,6 +57,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('3700000', $responseData[3]['price']);
         $this->assertEquals('The 1968 Ford Mustang GT driven by Steve McQueen in the 1968 film "Bullitt" just auctioned off fo...', $responseData[3]['truncDescription']);
         $this->assertEquals('$3,700,000.00', $responseData[3]['formatPrice']);
+        $this->assertEquals('Stew Isakov', $responseData[3]['salesPerson']['name']);
         $this->assertArrayHasKey('id', $responseData[3]);
 
         $this->assertEquals('Dilbar', $responseData[4]['name']);
@@ -60,6 +67,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1000000000', $responseData[4]['price']);
         $this->assertEquals('Dilbar is a super-yacht launched on 14 November 2015 at the German Lürssen shipyard and delivere...', $responseData[4]['truncDescription']);
         $this->assertEquals('$1,000,000,000.00', $responseData[4]['formatPrice']);
+        $this->assertEquals('Doug Muldoon', $responseData[4]['salesPerson']['name']);
         $this->assertArrayHasKey('id', $responseData[4]);
 
         $this->assertEquals('Enola Gay', $responseData[5]['name']);
@@ -69,6 +77,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1231881', $responseData[5]['price']);
         $this->assertEquals('The Enola Gay is a Boeing B-29 Superfortress bomber, named after Enola Gay Tibbets, the mother of...', $responseData[5]['truncDescription']);
         $this->assertEquals('$1,231,881.00', $responseData[5]['formatPrice']);
+        $this->assertEquals('Doug Muldoon', $responseData[5]['salesPerson']['name']);
         $this->assertArrayHasKey('id', $responseData[5]);
 
         $this->assertEquals('Spirit of St. Louis', $responseData[6]['name']);
@@ -78,11 +87,15 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('1383020', $responseData[6]['price']);
         $this->assertEquals('Louis is the custom-built, single-engine, single-seat, high-wing monoplane that was flown by Char...', $responseData[6]['truncDescription']);
         $this->assertEquals('$1,383,020.00', $responseData[6]['formatPrice']);
+        $this->assertEquals('Doug Muldoon', $responseData[6]['salesPerson']['name']);
         $this->assertArrayHasKey('id', $responseData[6]);
 
         $this->assertEquals(7, count($responseData));
     }
 
+    /**
+     * Tests the plane details page for the Air Force One record in the fixtures.
+     */
     public function testPlaneDetails()
     {
         $client = static::createClient();
@@ -109,6 +122,9 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('26', $responseData['crew']);
     }
 
+    /**
+     * Tests the car details page for the Batmobile record in the fixtures.
+     */
     public function testCarDetails()
     {
         $client = static::createClient();
@@ -134,6 +150,9 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('2', $responseData['passengers']);
     }
 
+    /**
+     * Tests the car details page for the Al Mirqab record in the fixtures.
+     */
     public function testBoatDetails()
     {
         $client = static::createClient();
@@ -158,5 +177,29 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('twin screw', $responseData['propulsion']);
         $this->assertEquals('60', $responseData['passengers']);
         $this->assertEquals('60', $responseData['crew']);
+    }
+
+    /**
+     * Tests that a 404 is thrown when a user tries to go to a boat, plane, or
+     * car record that doesn't exist.
+     */
+    public function test404Pages()
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/car/1231232313');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $client->request('GET', '/api/boat/123124432313');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $client->request('GET', '/api/plane/12333126632313');
+        $response = $client->getResponse();
+
+        $this->assertEquals(404, $response->getStatusCode());
     }
 }
