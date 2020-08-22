@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use App\Entity\Plane;
+use App\Entity\Car;
+use App\Entity\Boat;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +49,22 @@ class ApiController extends AbstractController
             'engineType' => $plane->getEngineType(),
             'seating' => $plane->getSeating(),
             'crew' => $plane->getCrew()
+        ]);
+    }
+
+    /**
+     * @Route("/api/car/{id}", methods={"GET", "HEAD"})
+     */
+    public function getCar($id)
+    {
+        $car = $this->getDoctrine()
+            ->getRepository(Car::class)
+            ->findOneByVehicle($id);
+
+        return new JsonResponse([
+            'motor' => $car->getMotor(),
+            'fuel' => $car->getFuel(),
+            'passengers' => $car->getPassengers()
         ]);
     }
 

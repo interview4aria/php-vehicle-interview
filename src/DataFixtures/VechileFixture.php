@@ -49,7 +49,13 @@ class VechileFixture extends Fixture
         $vehicle->setColor('black');
         $vehicle->setPrice('620000');
         $vehicle->setDescription('The Batmobile is the fictional car driven by the superhero Batman. Housed in the Batcave, which it accesses through a hidden entrance, the Batmobile is both a heavily armored tactical assault vehicle and a personalized custom-built pursuit and capture vehicle that is used by Batman in his fight against crime.');
-        $manager->persist($vehicle);
+
+        $car = new Car();
+        $car->setVehicle($vehicle);
+        $car->setMotor('5.7-liter Chevy V8 engine');
+        $car->setFuel('gasoline');
+        $car->setPassengers(2);
+        $manager->persist($car);
 
         $vehicle = new Vehicle();
         $vehicle->setName('Bullitt');
@@ -57,7 +63,13 @@ class VechileFixture extends Fixture
         $vehicle->setColor('gray');
         $vehicle->setPrice('3700000');
         $vehicle->setDescription('The 1968 Ford Mustang GT driven by Steve McQueen in the 1968 film "Bullitt" just auctioned off for $3.74 million. It is now considered the most valuable Ford Mustang in the world, according to the auction house that sold the car, Mecum Auctions.');
-        $manager->persist($vehicle);
+
+        $car = new Car();
+        $car->setVehicle($vehicle);
+        $car->setMotor('Ford 390-cubic-inch V-8');
+        $car->setFuel('gasoline');
+        $car->setPassengers(4);
+        $manager->persist($car);
 
         $vehicle = new Vehicle();
         $vehicle->setName('Dilbar');

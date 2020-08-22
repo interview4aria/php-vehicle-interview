@@ -108,4 +108,29 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('76', $responseData['seating']);
         $this->assertEquals('26', $responseData['crew']);
     }
+
+    public function testCarDetails()
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/vehicles');
+        $response = $client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $responseData = json_decode($response->getContent(), true);
+
+        $carId = $responseData[2]['id'];
+
+        $client->request('GET', '/api/car/'.$carId);
+        $response = $client->getResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals('5.7-liter Chevy V8 engine', $responseData['motor']);
+        $this->assertEquals('gasoline', $responseData['fuel']);
+        $this->assertEquals('2', $responseData['passengers']);
+    }
 }
