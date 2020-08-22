@@ -68,6 +68,23 @@ class ApiController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/api/boat/{id}", methods={"GET", "HEAD"})
+     */
+    public function getBoat($id)
+    {
+        $boat = $this->getDoctrine()
+            ->getRepository(Boat::class)
+            ->findOneByVehicle($id);
+
+        return new JsonResponse([
+            'num_engines' => $boat->getNumEngines(),
+            'propulsion' => $boat->getPropulsion(),
+            'passengers' => $boat->getPassengers(),
+            'crew' => $boat->getCrew()
+        ]);
+    }
+
     private function serializeData($data)
     {
         $encoders = [new JsonEncoder()];

@@ -77,7 +77,14 @@ class VechileFixture extends Fixture
         $vehicle->setColor('white');
         $vehicle->setPrice('1000000000');
         $vehicle->setDescription('Dilbar is a super-yacht launched on 14 November 2015 at the German Lürssen shipyard and delivered in 2016. It was built as Project Omar. The interior design of Dilbar was designed by Andrew Winch and the exterior by Espen Oeino. As of 2020, Dilbar is the sixth longest yacht in the world.');
-        $manager->persist($vehicle);
+
+        $boat = new Boat();
+        $boat->setVehicle($vehicle);
+        $boat->setNumEngines(4);
+        $boat->setPropulsion('diesel electric');
+        $boat->setPassengers(40);
+        $boat->setCrew(80);
+        $manager->persist($boat);
 
         $vehicle = new Vehicle();
         $vehicle->setName('Al Mirqab');
@@ -85,7 +92,14 @@ class VechileFixture extends Fixture
         $vehicle->setColor('blue');
         $vehicle->setPrice('250000000');
         $vehicle->setDescription('Al Mirqab is one of the largest motor yachts ever built. The yacht belongs to Qatar\'s former Prime Minister and Foreign Minister Hamad bin Jassim bin Jaber Al Thani. The yacht was built at Peters Schiffbau Wewelsfleth yard in Germany.');
-        $manager->persist($vehicle);
+
+        $boat = new Boat();
+        $boat->setVehicle($vehicle);
+        $boat->setNumEngines(2);
+        $boat->setPropulsion('twin screw');
+        $boat->setPassengers(60);
+        $boat->setCrew(60);
+        $manager->persist($boat);
 
         $vehicle = new Vehicle();
         $vehicle->setName('Air Force One');

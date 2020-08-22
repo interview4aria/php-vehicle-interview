@@ -36,11 +36,6 @@ class Boat
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $power;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
     private $passengers;
 
     /**
@@ -53,12 +48,12 @@ class Boat
         return $this->id;
     }
 
-    public function getVehicleId(): ?Vehicle
+    public function getVehicle(): ?Vehicle
     {
         return $this->vehicle;
     }
 
-    public function setVehicleId(Vehicle $vehicle): self
+    public function setVehicle(Vehicle $vehicle): self
     {
         $this->vehicle = $vehicle;
 
