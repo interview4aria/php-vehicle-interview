@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ApiControllerTest extends WebTestCase
 {
-    public function testVechiles()
+    public function testVehicles()
     {
         $client = static::createClient();
 
