@@ -25,12 +25,25 @@ class ApiController extends AbstractController
 
         $vehicles = $qb->getQuery()->getResult();
 
+        $data = $this->serializeData($vehicles);
+
+        return new Response($data);
+    }
+
+    /**
+     * @Route("/api/plane/{id}", methods={"GET", "HEAD"})
+     */
+    public function getPlane($id)
+    {
+        return new Response('');
+    }
+
+    private function serializeData($data)
+    {
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
 
         $serializer = new Serializer($normalizers, $encoders);
-        $data = $serializer->serialize($vehicles, 'json');
-
-        return new Response($data);
+        return $serializer->serialize($data, 'json');
     }
 }
