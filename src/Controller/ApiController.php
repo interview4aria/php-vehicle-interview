@@ -4,8 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class ApiController extends AbstractController
 {
@@ -19,9 +23,14 @@ class ApiController extends AbstractController
             ->createQueryBuilder('v')
             ->orderBy('v.name');
 
-        $vehicles = $qb->getQuery()->getArrayResult();
-            //->findAll()->getArrayResult();
+        $vehicles = $qb->getQuery()->getResult();
 
-        return new JsonResponse($vehicles);
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $data = $serializer->serialize($vehicles, 'json');
+
+        return new Response($data);
     }
 }

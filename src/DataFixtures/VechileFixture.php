@@ -3,6 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Vehicle;
+use App\Entity\Plane;
+use App\Entity\Boat;
+use App\Entity\Car;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -16,7 +19,14 @@ class VechileFixture extends Fixture
         $vehicle->setColor('silver');
         $vehicle->setPrice('1231881');
         $vehicle->setDescription('The Enola Gay is a Boeing B-29 Superfortress bomber, named after Enola Gay Tibbets, the mother of the pilot, Colonel Paul Tibbets. On 6 August 1945, piloted by Tibbets and Robert A. Lewis during the final stages of World War II, it became the first aircraft to drop an atomic bomb.');
-        $manager->persist($vehicle);
+
+        $plane = new Plane();
+        $plane->setVehicle($vehicle);
+        $plane->setNumEngines(4);
+        $plane->setEngineType('propeller');
+        $plane->setSeating(0);
+        $plane->setCrew(12);
+        $manager->persist($plane);
 
         $vehicle = new Vehicle();
         $vehicle->setName('Spirit of St. Louis');
@@ -56,6 +66,14 @@ class VechileFixture extends Fixture
         $vehicle->setColor('blue');
         $vehicle->setPrice('250000000');
         $vehicle->setDescription('Al Mirqab is one of the largest motor yachts ever built. The yacht belongs to Qatar\'s former Prime Minister and Foreign Minister Hamad bin Jassim bin Jaber Al Thani. The yacht was built at Peters Schiffbau Wewelsfleth yard in Germany.');
+        $manager->persist($vehicle);
+
+        $vehicle = new Vehicle();
+        $vehicle->setName('Air Force One');
+        $vehicle->setType('plane');
+        $vehicle->setColor('white');
+        $vehicle->setPrice('3200000000');
+        $vehicle->setDescription('Air Force One is the official air traffic control call sign for a United States Air Force aircraft carrying the president of the United States. In common parlance, the term is used to denote U.S. Air Force aircraft modified and used to transport the president.[1] The aircraft are prominent symbols of the American presidency and its power.');
         $manager->persist($vehicle);
 
         $manager->flush();

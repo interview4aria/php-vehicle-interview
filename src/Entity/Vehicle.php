@@ -61,7 +61,7 @@ class Vehicle
 
     public function getType(): ?string
     {
-        return $this->type;
+        return ucfirst($this->type);
     }
 
     public function setType(string $type): self
@@ -73,7 +73,7 @@ class Vehicle
 
     public function getColor(): ?string
     {
-        return $this->color;
+        return ucfirst($this->color);
     }
 
     public function setColor(?string $color): self
@@ -105,5 +105,21 @@ class Vehicle
         $this->price = $price;
 
         return $this;
+    }
+
+    public function getTruncDescription()
+    {
+        $description = $this->getDescription();
+
+        if (strlen($description) > 97) {
+            return substr($this->getDescription(), 0, 97).'...';
+        }
+
+        return $description;
+    }
+
+    public function getFormatPrice()
+    {
+        return '$'.number_format($this->getPrice(), 2, '.', ',');
     }
 }
