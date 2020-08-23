@@ -11,7 +11,11 @@ The following software is required to run the application.
 ## Installation
 
 composer install
-php bin/console doctrine:migrations:migrate
-php bin/console doctrine:fixtures:load
-php bin/phpunit tests
+
+## Starting Server
+
 php bin/console symfony server:start
+
+## Running Tests
+
+php bin/phpunit tests
