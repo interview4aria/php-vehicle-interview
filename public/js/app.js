@@ -1,4 +1,6 @@
 $('table.dataTable').DataTable( {
+    "paging": false,
+    "lengthChange": false,
     ajax: {
         url: '/api/vehicles',
         dataSrc: ''
