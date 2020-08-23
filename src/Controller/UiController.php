@@ -9,6 +9,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,5 +59,45 @@ class UiController extends AbstractController
         ]);
     }
 
-    /** */
+    /**
+     * @Route("/admin/vehicle/create", name="create_vehicle", methods={"GET", "POST"})
+     */
+    public function createVehicle(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $vehicle = new Vehicle();
+
+        $form = $this->createFormBuilder($vehicle)
+            ->add('name', TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('color', TextType::class, [
+                'required' => false
+            ])
+            ->add('price', NumberType::class, [
+                'required' => false
+            ])
+            ->add('type', ChoiceType::class, [
+                'choices' => [
+                    'Boat' => 'boat',
+                    'Car' => 'car',
+                    'Plane' => 'plane',
+                ]
+            ])
+            ->add('send', SubmitType::class)
+            ->getForm();
+
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $vehicle = $form->getData();
+
+                $entityManager->persist($vehicle);
+                $entityManager->flush();
+
+                return $this->render('create_success.html.twig');
+            }
+
+            return $this->render('create.html.twig', [
+                'form' => $form->createView()
+            ]);
+    }
 }
