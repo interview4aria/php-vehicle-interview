@@ -4,7 +4,7 @@
 ## System Requirements
 
 The following software is required to run the application.
-* PHP 7.1
+* PHP 7.2
 * [Symfony command line](https://symfony.com/download "Download Symfony")
 * [Composer](https://getcomposer.org/)
 * Sqlite3
@@ -54,16 +54,16 @@ the vehicle at /api/boat/vehicle_id, /api/car/vehicle_id, and /api/plane/vehicle
 
 ## Requirements
 
-There are 3 tasks to be attempted. The first is a user story for a new feature
-that needs to be implemented. The second is to review a perfomance issue. The
-third is a code review for any performance, security, or quality issues on a
-pull request.
+Please attempt to complete development of the following feature based on this
+user st
 
-* As a user I want to be able to see the number of people a vehicle can
+As a user I want to be able to see the number of people a vehicle can
 carry. In the case of boats and planes this number should contain both passengers
 and crew. For cars it should just be passengers. The /vehicles API should return a
 new value 'numPeople' that should contain the total for each vehicle. It should then
 be displayed as a column in the table on the main page.
+
+In the demo and meeting we'll also discuss
 
 * In our production environment the inquiry page is loading extremely slow
 despite working fine in the dev and qa environments. What may be the performance
